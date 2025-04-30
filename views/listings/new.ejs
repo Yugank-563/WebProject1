@@ -1,0 +1,63 @@
+<% layout("layouts/boilerplate") -%>
+
+<div class="row">
+    <div class="col-8 offset-2">
+        <h3>Create New Listing</h3>
+        <form action="/listings" method="POST" novalidate class = "needs-validation" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="title" class="form-label">Title:</label>
+                <input type="text" class="form-control" id="title" name="listing[title]" placeholder="Cozy Mountain Cabin" required>
+                <div class="invalid-feedback">
+                    Please provide a title.
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Description:</label>
+                <textarea class="form-control" id="description" name="listing[description]" placeholder="Peaceful retreat with scenic views and a fireplace" required></textarea>
+                <div class="invalid-feedback">
+                    Please provide a description.
+                </div>
+            </div>
+            <!-- <div class="mb-3">
+                <label for="image" class="form-label">Image URL:</label>
+                <input type="text" class="form-control" id="image" name="image" placeholder="https://yourdomain.com/image.jpg">
+                <div class="invalid-feedback">
+                    Please enter a valid image URL.
+                </div>
+            </div> -->
+            <div class="mb-3">
+                <label for="image" class="form-label">Upload Image:</label>
+                <input type="file" class="form-control" id="image" name="image" required>
+                <div class="invalid-feedback">
+                    Please upload an image.
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="mb-3 col-md-4">
+                    <label for="price" class="form-label">Price:</label>
+                    <input type="number" class="form-control" id="price" name="listing[price]" placeholder="1999" required>
+                    <div class="invalid-feedback">
+                        Please enter a valid price.
+                    </div>
+                </div>
+                <div class="mb-3 col-md-8">
+                    <label for="country" class="form-label">Country:</label>
+                    <input type="text" class="form-control" id="country" name="listing[country]" placeholder="Canada" required>
+                    <div class="invalid-feedback">
+                        Please enter a valid country.
+                    </div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="location" class="form-label">Location:</label>
+                <input type="text" class="form-control" id="location" name="listing[location]" placeholder="Banff National Park" required>
+                <div class="invalid-feedback">
+                    Please enter a valid location.
+                </div>
+            </div>
+            <button type="submit" class="btn add-btn mt-3">Create Listing</button>
+        </form>  
+    </div>
+</div>
+
+ 

@@ -1,0 +1,14 @@
+<% layout("/layouts/boilerplate") -%>
+
+<div class="container mt-5">
+  <div class="alert alert-danger" role="alert">
+    <h4 class="alert-heading"><i class="fa fa-warning"></i>  <i> Error <%= err.statusCode || 500 %>!</i></h4>
+    <p><%= err.message || "Something went wrong!" %></p>
+    <hr>
+    <p class="mb-0">
+      <a href="javascript:history.back()" class="alert-link" style="text-decoration: none;">← Back to previous page</a>
+    </p>
+  </div>
+</div>
+
+

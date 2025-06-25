@@ -112,6 +112,12 @@ app.use("/listings/:id/reviews", reviewsRouter);
 app.use("/", userRouter);
 
 
+app.get("/", (req, res) => {
+  res.redirect("/listings");
+});
+
+
+
 //Used for when the user tries to access a route that doesn't exist
 app.all("/{*any}", (req, res, next) => {
   next(new ExpressError(404, "Page Not Found!"));

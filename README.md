@@ -31,12 +31,3 @@ A full-stack web application built with the MERN stack that allows users to list
 
 ## 📸 Screenshots
 ![image](https://github.com/user-attachments/assets/ad167bc9-753c-4757-a8eb-3f8f5e1c1418)
-
-📁 Folder Structure
-/models       -> Mongoose schemas (User, Listing, Review)
-/routes       -> Express route handlers
-/views        -> EJS templates
-/public       -> Static assets (CSS, JS, images)
-/utils        -> Error handling, middleware
-
-

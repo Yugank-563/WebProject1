@@ -80,3 +80,24 @@ export const deleteListing = async (req, res) => {
     req.flash("success", "Listing deleted!");
     res.redirect("/listings");
 };
+
+
+//search listings callback
+export const searchListings = async (req, res) => {
+    const { country } = req.query;
+    try {
+        const listings = await Listing.find({
+            country: { $regex: new RegExp(country, 'i') } // case-insensitive match
+        });
+
+        if (listings.length === 0) {
+            req.flash('error', `No listings found for ${country}`);
+            return res.redirect('/listings');
+        }
+
+        res.render("listings/index.ejs", { listings }); // reuse your main listing template
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Internal Server Error");
+    }
+};

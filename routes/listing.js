@@ -16,6 +16,7 @@ import {
   getEditListing,
   updateLisiting,
   deleteListing,
+  searchListings,
 } from "../controllers/listings.js";
 
 const router = Router();
@@ -30,6 +31,9 @@ router.route("/")
     validateListing, 
     wrapAsync(createListing)
   );
+
+router.get("/search",searchListings);
+
 
 //new route
 router.get("/new", isLoggedIn, getNewListing);

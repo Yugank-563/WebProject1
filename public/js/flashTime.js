@@ -3,4 +3,4 @@ setTimeout(() => {
     if(flash){
       flash.style.display = 'none';
     }
-  }, 2000);
+  }, 3000);

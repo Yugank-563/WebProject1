@@ -84,14 +84,19 @@ export const deleteListing = async (req, res) => {
 
 //search listings callback
 export const searchListings = async (req, res) => {
-    const { country } = req.query;
+    const { query } = req.query;
+
     try {
         const listings = await Listing.find({
-            country: { $regex: new RegExp(country, 'i') } // case-insensitive match
+            // country: { $regex: new RegExp(country, 'i') } // case-insensitive match
+            $or: [
+                { country: { $regex: new RegExp(query, 'i') } },
+                { location: { $regex: new RegExp(query, 'i') } }
+            ]
         });
 
         if (listings.length === 0) {
-            req.flash('error', `No listings found for ${country}`);
+            req.flash('error', `No listings found for ${query}`);
             return res.redirect('/listings');
         }
 

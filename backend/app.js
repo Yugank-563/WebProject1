@@ -101,6 +101,8 @@ app.get("/", (req, res) => {
   res.redirect("/listings");
 });
 
+// Favicon handler
+app.get("/favicon.ico", (req, res) => res.status(204).end());
 
 //Used for when the user tries to access a route that doesn't exist
 app.use((req, res, next) => {
@@ -110,7 +112,9 @@ app.use((req, res, next) => {
 
 app.use((err, req, res, next) => {
     const { statusCode = 500, message = "Something went wrong!" } = err;
-    console.error(err);
+    if (statusCode !== 404) {
+        console.error(err); // Only log real errors, not 404s
+    }
     res.status(statusCode).render("error.ejs", { err });
 });
 

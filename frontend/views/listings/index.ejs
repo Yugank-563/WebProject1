@@ -1,75 +1,259 @@
 <% layout("layouts/boilerplate") -%>
 
 <style>
-    #filters{
+    #filters {
         display: flex;
-        flex-wrap: wrap;
-    }   
-    .filter{
-        margin-right: 3rem;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        align-items: center;
+        padding: 10px 0 10px 20px; /* Added 20px padding at the start */
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+    #filters::-webkit-scrollbar {
+        display: none; /* Hide scrollbar for Chrome, Safari and Opera */
+    }
+    .filter {
+        margin-right: 1.5rem; /* Reduced from 2rem */
         text-align: center;
-        margin-top: 1rem;
         cursor: pointer;
         opacity: 0.7;
-
+        flex: 0 0 auto;
+        transition: all 0.2s ease-in-out; /* Smooth animation */
+        text-decoration: none !important; /* Remove underline */
+        color: inherit !important; /* Keep original color */
     } 
-    .filter:hover{
-        opacity: 1;
+    @media (min-width: 992px) {
+        .filter {
+            margin-right: 2.8rem; /* Reduced from 3.5rem */
+        }
     }
-
-    .filter p{
-        font-size: 0.8rem;
+    .filter:hover {
+        opacity: 1;
+        transform: translateY(-2px); /* Slight lift */
+        color: #000; /* Darker on hover */
+    }
+    .filter p {
+        font-size: 0.75rem;
+        margin-bottom: 0;
+    }
+    .sticky-header {
+        position: sticky;
+        top: 68px;
+        z-index: 998;
+        background: #f7f7f7;
+        width: 100%;
+        padding-top: 10px;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        border-bottom-left-radius: 15px; /* Subtle card rounding */
+        border-bottom-right-radius: 15px;
+    }
+    .mega-search-container {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        padding: 5px 0;
+        background: #f7f7f7;
+    }
+    .filters-container {
+        width: 100%;
+        padding: 0 20px;
+        background: #f7f7f7;
+    }
+    .mega-search-bar {
+        display: flex;
+        align-items: center;
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 40px;
+        padding: 5px 5px 5px 20px;
+        box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+        width: 70%; /* Reduced from 90% */
+        max-width: 500px; /* Reduced from 700px */
+        transition: all 0.3s ease;
+    }
+    .card {
+        border: none !important;
+        border-radius: 1.5rem !important;
+        overflow: hidden;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        background: transparent !important;
+        margin-bottom: 1.5rem;
+    }
+    .card:hover {
+        transform: translateY(-4px); /* Reduced lift from -8px */
+        box-shadow: 0 10px 20px rgba(0,0,0,0.12) !important; /* Slightly softer shadow */
+    }
+    .card-img-top {
+        border-radius: 1.5rem !important;
+        height: 18rem !important;
+        object-fit: cover !important;
+        transition: transform 0.6s ease;
+    }
+    .card-body {
+        padding: 1rem 0.5rem !important;
+    }
+    .card-text b {
+        font-size: 1.1rem;
+        color: #222;
+    }
+    .card-text {
+        font-weight: 400;
+        color: #555;
+    }
+    @media (max-width: 768px) {
+        .sticky-header {
+            top: 68px;
+        }
+        .mega-search-bar {
+            width: 95%; /* Small gap on sides for rounding visibility */
+            border-radius: 30px; /* Rounded corners on mobile */
+            padding: 5px 5px 5px 15px;
+        }
+        .mega-search-btn span {
+            display: none;
+        }
+        .mega-search-btn {
+            width: 40px;
+            height: 40px;
+            padding: 0;
+            border-radius: 50%;
+        }
+        .mega-search-btn i {
+            margin: 0 !important;
+        }
+    }
+    .search-section {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        padding: 0 10px;
+    }
+    .search-section input {
+        border: none;
+        outline: none;
+        font-size: 14px;
+        color: #222;
+        background: transparent;
+        padding: 8px 0;
+        width: 100%;
+    }
+    .search-section input::placeholder {
+        color: #717171;
+        font-weight: 300;
+        opacity: 0.8;
+    }
+    .mega-search-btn {
+        background-color: #fe424d;
+        color: #fff;
+        border: none;
+        border-radius: 50%; /* Circle */
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        transition: all 0.2s ease;
+        cursor: pointer;
+    }
+    .mega-search-btn:hover {
+        background-color: #e31c5f;
+        transform: scale(1.1);
     }
 </style>
 
-<div id="filters">
-    <div class="filter">
-        <div> <i class="fa-solid fa-fire"></i></div>
-        <p>Trending</p>
+<div class="sticky-header">
+    <div class="mega-search-container">
+        <div class="mega-search-bar">
+            <div class="search-section">
+                <input type="text" name="query" placeholder="Where to next?" form="searchForm">
+            </div>
+            <form id="searchForm" action="/listings/search" method="GET">
+                <button class="mega-search-btn" type="submit">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </form>
+        </div>
     </div>
-    <div class="filter">
-        <div><i class="fa-solid fa-bed"></i></div>
-        <p>Beds</p>
-    </div>
-    <div class="filter">
-        <div><i class="fa-solid fa-mountain-city"></i></div>
-        <p>Iconic Cities</p>
-    </div>
-    <div class="filter">
-        <div><i class="fa-solid fa-mountain"></i></div>
-        <p>Mountain</p>
-    </div>
-    <div class="filter">
-        <div><i class="fa-solid fa-fort-awesome"></i></div>
-        <p>Castles</p>
-    </div>
-    <div class="filter">
-        <div><i class="fa-solid fa-person-swimming"></i></div>
-        <p>Amazing Pools</p>
-    </div>
-    <div class="filter">
-        <div><i class="fa-solid fa-campground"></i></div>
-        <p>Campling</p>
-    </div>
-    <div class="filter">
-        <div><i class="fa-solid fa-umbrella-beach"></i></div>
-        <p>Beach</p>
-    </div>
-    <div class="filter">
-        <div><i class="fa-solid fa-sailboat"></i></div>
-        <p>Boats</p>
-    </div>
-    <div class="filter">
-        <div><i class="fa-solid fa-snowflake"></i></div>
-        <p>Arctic</p>
-    </div>
-    <div class="filter">
-        <div><i class="fa-solid fa-tree-city"></i></div>
-        <p>Treehouses</p>
-    </div>
-    <div class="filter">
-        <div><i class="fa-solid fa-suitcase"></i></div>
-        <p>Unique spaces</p>
+
+    <div class="filters-container">
+        <div id="filters" class="d-flex overflow-auto">
+            <!-- Filters -->
+            <a href="/listings/search?query=Trending" class="filter">
+                <div> <i class="fa-solid fa-fire"></i></div>
+                <p>Trending</p>
+            </a>
+            <a href="/listings/search?query=Rooms" class="filter">
+                <div><i class="fa-solid fa-bed"></i></div>
+                <p>Rooms</p>
+            </a>
+            <a href="/listings/search?query=Iconic Cities" class="filter">
+                <div><i class="fa-solid fa-mountain-city"></i></div>
+                <p>Iconic Cities</p>
+            </a>
+            <a href="/listings/search?query=Mountains" class="filter">
+                <div><i class="fa-solid fa-mountain"></i></div>
+                <p>Mountains</p>
+            </a>
+            <a href="/listings/search?query=Castles" class="filter">
+                <div><i class="fa-solid fa-fort-awesome"></i></div>
+                <p>Castles</p>
+            </a>
+            <a href="/listings/search?query=Amazing Pools" class="filter">
+                <div><i class="fa-solid fa-person-swimming"></i></div>
+                <p>Amazing Pools</p>
+            </a>
+            <a href="/listings/search?query=Camping" class="filter">
+                <div><i class="fa-solid fa-campground"></i></div>
+                <p>Camping</p>
+            </a>
+            <a href="/listings/search?query=Farms" class="filter">
+                <div><i class="fa-solid fa-cow"></i></div>
+                <p>Farms</p>
+            </a>
+            <a href="/listings/search?query=Arctic" class="filter">
+                <div><i class="fa-solid fa-snowflake"></i></div>
+                <p>Arctic</p>
+            </a>
+            <a href="/listings/search?query=Domes" class="filter">
+                <div><i class="fa-solid fa-igloo"></i></div>
+                <p>Domes</p>
+            </a>
+            <a href="/listings/search?query=Boats" class="filter">
+                <div><i class="fa-solid fa-sailboat"></i></div>
+                <p>Boats</p>
+            </a>
+            <a href="/listings/search?query=Beach" class="filter">
+                <div><i class="fa-solid fa-umbrella-beach"></i></div>
+                <p>Beach</p>
+            </a>
+            <a href="/listings/search?query=Vineyards" class="filter">
+                <div><i class="fa-solid fa-wine-glass"></i></div>
+                <p>Vineyards</p>
+            </a>
+            <a href="/listings/search?query=Tiny Homes" class="filter">
+                <div><i class="fa-solid fa-house-chimney-window"></i></div>
+                <p>Tiny Homes</p>
+            </a>
+            <a href="/listings/search?query=Luxe" class="filter">
+                <div><i class="fa-solid fa-gem"></i></div>
+                <p>Luxe</p>
+            </a>
+            <a href="/listings/search?query=Lakefront" class="filter">
+                <div><i class="fa-solid fa-water"></i></div>
+                <p>Lakefront</p>
+            </a>
+            <a href="/listings/search?query=Golfing" class="filter">
+                <div><i class="fa-solid fa-golf-ball-tee"></i></div>
+                <p>Golfing</p>
+            </a>
+            <a href="/listings/search?query=National Parks" class="filter">
+                <div><i class="fa-solid fa-tree"></i></div>
+                <p>National Parks</p>
+            </a>
+        </div>
     </div>
 </div>
 <!-- <h1>All Listings</h1> -->

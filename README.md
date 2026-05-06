@@ -30,5 +30,4 @@ A full-stack web application built with the MERN stack that allows users to list
 ---
 
 ## 📸 Screenshots
-![image](https://github.com/user-attachments/assets/ad167bc9-753c-4757-a8eb-3f8f5e1c1418)
 <img width="1905" height="964" alt="image" src="https://github.com/user-attachments/assets/6e893d69-d44a-4dda-88ea-3f0314697519" />

@@ -1,13 +1,64 @@
-<% if (success && success.length) { %>
-  <div id="flash-message" class="alert alert-success alert-dismissible fade show col-4 offset-4" role="alert">
-    <%= success %>
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-  </div>
-<% } %>
+<style>
+  .flash-container {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+    min-width: 280px;
+    max-width: 450px;
+    width: auto;
+  }
+  .alert-floating {
+    padding: 0.5rem 2.5rem 0.5rem 1rem !important; /* Slimmer padding */
+    min-height: auto !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px; /* Slightly sharper corners */
+    text-align: center;
+    font-size: 0.95rem; /* Slightly smaller text */
+    animation: fadeInDown 0.4s ease-out;
+  }
+  .alert-floating .btn-close {
+    padding: 0.8rem 0.8rem !important;
+    transform: scale(0.6); /* Makes the X smaller */
+    top: 50%;
+    transform-origin: center;
+    margin-top: -1.2rem; /* Centers it vertically after scaling */
+  }
+  @keyframes fadeInDown {
+    from { transform: translateY(-20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+</style>
 
-<% if (error && error.length) { %>
-  <div id="flash-message" class="alert alert-danger alert-dismissible fade show col-4 offset-4" role="alert">
-    <%= error %>
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-  </div>
-<% } %>
+<div class="flash-container">
+  <% if (success && success.length) { %>
+    <div class="alert alert-success alert-dismissible fade show alert-floating" role="alert">
+      <i class="fa-solid fa-circle-check me-2"></i>
+      <%= success %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  <% } %>
+
+  <% if (error && error.length) { %>
+    <div class="alert alert-danger alert-dismissible fade show alert-floating" role="alert">
+      <i class="fa-solid fa-circle-exclamation me-2"></i>
+      <%= error %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  <% } %>
+</div>
+
+<script>
+  // Automatically hide flash messages after 3 seconds
+  setTimeout(() => {
+    const alerts = document.querySelectorAll('.alert-floating');
+    alerts.forEach(alert => {
+      const bsAlert = new bootstrap.Alert(alert);
+      bsAlert.close();
+    });
+  }, 3000);
+</script>

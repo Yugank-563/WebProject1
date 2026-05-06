@@ -33,30 +33,4 @@ router.route("/login")
 //logout route 
 router.get("/logout", logoutUser);
 
-//we can combine the routes like this in the above code
-
-// //signup route 
-// router.get("/signup", getRegister);
-
-
-// //signup route creating a new user
-// router.post("/signup", wrapAsync(createUser));
-
-
-// //login route
-// router.get("/login", loginUser);
-
-
-// //login route authenticating user
-// router.post("/login",
-//     saveRedirectUrl,
-//     passport.authenticate("local", {failureRedirect: "/login", failureFlash: true }),
-//     authenticateUser, 
-// );
-
-
-// //logout route 
-// router.get("/logout", logoutUser);
-
-
 export {router as userRouter};  

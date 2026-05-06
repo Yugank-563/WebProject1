@@ -18,7 +18,8 @@ export const getNewListing = (req, res) => {
 
 //show listing callback
 export const getListing = async (req, res) => {
-    const listing = await Listing.findById(req.params.id)
+    console.log(`Searching for listing ID: [${req.params.id}]`);
+    const listing = await Listing.findById(req.params.id.trim())
     .populate({
       path : "reviews",
       populate : { 

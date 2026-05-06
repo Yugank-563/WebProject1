@@ -1,19 +1,19 @@
 import dotenv from "dotenv";
 import express from "express";
-import mongoose from "mongoose";
 import path from "path";
 import { fileURLToPath } from "url";
 import methodOverride from "method-override";
-import ejsMate from "ejs-mate";
+import ejsMatePkg from "ejs-mate";
+const ejsMate = ejsMatePkg.default || ejsMatePkg;
 import session from "express-session";
 import MongoStore from "connect-mongo";
 import flash from "connect-flash";
 import passport from "passport";
-import localStrategy from "passport-local";
-
+import localStrategyPkg from "passport-local";
+const localStrategy = localStrategyPkg.Strategy || localStrategyPkg;
 
 if(process.env.NODE_ENV !== "production") {
-  dotenv.config({ path: "./.env" });
+  dotenv.config({ path: "../.env" });
 }
 
 //importing models
@@ -28,36 +28,22 @@ import {reviewsRouter} from "./routes/review.js";
 import {userRouter} from "./routes/user.js";
 
 const app = express();
-const port = 3000;  
-
 
 //dirname
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-app.set("views", path.join(__dirname, "views"));
+app.set("views", path.join(__dirname, "../frontend/views"));
 app.set("view engine", "ejs");
 
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "../frontend/public")));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 
 //ejs-mate
 app.engine("ejs", ejsMate);
 
-//Connect to DB
-// const MONGO_URI = "mongodb://127.0.0.1:27017/wanderlust";
-
 const dburl = process.env.MONGO_URI;
-
-
-main()
-  .then(() => console.log("Connected to MongoDB... "))
-  .catch((error) => console.error("Error connecting to MongoDB:", error));
-
-async function main() {
-  await mongoose.connect(dburl);
-}
 
 const store = MongoStore.create({
   mongoUrl: dburl,
@@ -73,7 +59,6 @@ store.on("error", (e)=> {
 });
 
 
-// console.log(dburl);
 const sessionOptions = {
   store,
   secret : process.env.SECRET,
@@ -117,9 +102,8 @@ app.get("/", (req, res) => {
 });
 
 
-
 //Used for when the user tries to access a route that doesn't exist
-app.all("/{*any}", (req, res, next) => {
+app.use((req, res, next) => {
   next(new ExpressError(404, "Page Not Found!"));
 });
 
@@ -130,6 +114,4 @@ app.use((err, req, res, next) => {
     res.status(statusCode).render("error.ejs", { err });
 });
 
-app.listen(port, () => {
-  console.log(`Server is listening on port ${port}`);
-});
+export default app;

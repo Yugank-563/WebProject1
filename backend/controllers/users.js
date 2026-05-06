@@ -17,7 +17,9 @@ export const createUser = async (req, res) => {
             }
             console.log("user registered :" ,registeredUser);
             req.flash("success", "Welcome to Wanderlust!");
-            res.redirect("/listings");
+            req.session.save(() => {
+                res.redirect("/listings");
+            });
         });
        } catch (err){
         req.flash("error", err.message);
@@ -33,18 +35,21 @@ export const loginUser = (req, res) => {
 //aurhenticate user callback
 export const authenticateUser = async(req, res) => {
     req.flash("success", "Welcome back!"); 
-    //jaise hi passport authenticate hoga then req.session.redirectUrl automatically reset ho jayega to session me redirectUrl ki value nahi rahegi
     let redirectUrl = res.locals.redirectUrl || "/listings";
-    res.redirect(redirectUrl);
+    req.session.save(() => {
+        res.redirect(redirectUrl);
+    });
 };
 
 //logout user callback
-export const logoutUser = (req, res) => {
+export const logoutUser = (req, res, next) => {
     req.logout((err) => {
         if(err){
             return next(err);
         }
         req.flash("success", "you have logged out successfully!");
-        res.redirect("/listings");
+        req.session.save(() => {
+            res.redirect("/listings");
+        });
     });
 };

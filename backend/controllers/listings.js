@@ -88,11 +88,16 @@ export const searchListings = async (req, res) => {
     const { query } = req.query;
 
     try {
+        // Split query into words to find partial matches (e.g., "Amazing Pools" -> "Amazing", "Pools")
+        const keywords = query.split(" ").filter(w => w.length > 0);
+        const searchRegex = keywords.map(word => new RegExp(word, 'i'));
+
         const listings = await Listing.find({
-            // country: { $regex: new RegExp(country, 'i') } // case-insensitive match
             $or: [
-                { country: { $regex: new RegExp(query, 'i') } },
-                { location: { $regex: new RegExp(query, 'i') } }
+                { title: { $in: searchRegex } },
+                { description: { $in: searchRegex } },
+                { location: { $in: searchRegex } },
+                { country: { $in: searchRegex } }
             ]
         });
 

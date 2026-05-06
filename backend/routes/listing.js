@@ -3,7 +3,7 @@ import wrapAsync from "../utils/wrapAsync.js";
 import { isLoggedIn, isOwner, validateListing } from "../middleware/middleware.js";
 import multer from "multer";
 
-import { storage } from "../cloudConfig.mjs";
+import { storage } from "../../cloudConfig.mjs";
 const upload = multer({storage});
 
 
@@ -62,39 +62,5 @@ router.get("/:id/edit",
   isOwner, 
   wrapAsync(getEditListing)
 );
-
-
-
-//index.ejs route
-// router.get("/", wrapAsync(getAllListings));
-
-
-//show route
-// router.get("/:id",wrapAsync(getListing));
-
-
-//create route
-// router.post("/", 
-//   isLoggedIn, 
-//   validateListing, 
-//   wrapAsync(createListing)
-// );
-
-
-//update route
-// router.put("/:id",
-//   isLoggedIn,
-//   isOwner,
-//   validateListing,
-//   wrapAsync(updateLisiting)
-// );
-
-
-//delete route
-// router.delete("/:id",
-//   isLoggedIn,
-//   isOwner,
-//   wrapAsync(deleteListing)
-// );
 
 export { validateListing, router as listingsRouter};

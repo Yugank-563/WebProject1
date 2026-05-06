@@ -1,8 +1,8 @@
 import { v2 as cloudinary } from "cloudinary";
-import { CloudinaryStorage } from "multer-storage-cloudinary";
+import CloudinaryStoragePkg from "multer-storage-cloudinary";
+const CloudinaryStorage = CloudinaryStoragePkg.default || CloudinaryStoragePkg;
 import dotenv from "dotenv";
 dotenv.config();
-
 
 // Configure Cloudinary
 cloudinary.config({
@@ -11,13 +11,12 @@ cloudinary.config({
   api_secret: process.env.CLOUD_API_SECRET,
 }); 
 
-
 // Configure Cloudinary Storage
-const storage = new CloudinaryStorage({
+const storage = CloudinaryStorage({
   cloudinary,
   params: {
     folder: "wanderlust_Dev", 
-    allowed_formats: ["jpg", "png", "jpeg"],
+    allowedFormats: ["jpg", "png", "jpeg"],
   },
 });
 

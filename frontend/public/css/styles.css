@@ -122,33 +122,92 @@ footer {
 }
 
 
-/* show page  */
-.show-page{
-  height: 30vh;
-  width: 100% !important;
-  object-position: center center !important;
-  border-radius: 0.7rem !important;
-  object-fit: cover !important;
+/* show page v2 premium */
+.listing-main-card {
+  transition: transform 0.3s ease;
 }
 
-.show-page-img {
-  height:40vh;
+.show-page-img-v2 {
+  min-height: 450px;
+  max-height: 650px;
   object-fit: cover;
-  border-bottom-left-radius: 0 !important;
-  border-bottom-right-radius: 0 !important;
+  transition: transform 0.5s ease;
 }
 
-
-.review-del{
-  height: 20px;
-  width: 50px;
-  font-size: 11px !important;
-  padding: 0 0 1px 0 !important;
-  margin-bottom: 5px !important;
+.listing-main-card:hover .show-page-img-v2 {
+  transform: scale(1.02);
 }
 
+.review-card-v3 {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid transparent !important;
+}
+
+.review-card-v3:hover {
+  background-color: #fff !important;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08) !important;
+  transform: translateY(-5px);
+  border-color: #eee !important;
+}
+
+/* Custom Range V2 */
+.custom-range-v2 {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 8px;
+  border-radius: 5px;
+  background: #e0e0e0;
+  outline: none;
+  margin: 15px 0;
+}
+
+.custom-range-v2::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #fe424d;
+  cursor: pointer;
+  border: 3px solid #fff;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  transition: all 0.2s ease;
+}
+
+.custom-range-v2::-webkit-slider-thumb:hover {
+  transform: scale(1.1);
+  background: #ff5a5f;
+}
+
+.rating-input-wrapper {
+  border: 1px solid #eee;
+  transition: border-color 0.3s ease;
+}
+
+.rating-input-wrapper:focus-within {
+  border-color: #fe424d;
+}
+
+.wishlist-btn {
+  transition: all 0.3s ease;
+}
+
+.wishlist-btn:hover {
+  transform: scale(1.15);
+  background-color: #fff !important;
+}
 
 /* media queries */
+@media (max-width: 991.98px) {
+  .show-page-img-v2 {
+    min-height: 350px;
+    height: 350px;
+  }
+  .listing-main-card {
+    border-radius: 2rem !important;
+  }
+}
+
 @media (max-width: 768px) {
   .card-reviews{
     width: 100% !important;
@@ -156,9 +215,6 @@ footer {
   .show-reviews{
     flex-direction: column !important;
     align-items: center !important;
-  }
-  .show-page-img {
-    height: 30vh;
   }
 }
 

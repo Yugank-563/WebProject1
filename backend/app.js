@@ -55,7 +55,7 @@ const store = MongoStore.create({
 
 
 store.on("error", (e)=> {
-  console.log("Session store error", e);
+  console.error("Session store error", e);
 });
 
 

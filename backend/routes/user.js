@@ -1,14 +1,14 @@
 import { Router } from "express";
 import wrapAsync from "../utils/wrapAsync.js";
 import passport from "passport";
-import { saveRedirectUrl } from "../middleware/middleware.js";
+import { isLoggedIn, saveRedirectUrl } from "../middleware/middleware.js";
 
 import { 
     getRegister,
     createUser,
     loginUser,
     authenticateUser,
-    logoutUser,
+    logoutUser
 
 } from "../controllers/users.js";
 
@@ -33,4 +33,4 @@ router.route("/login")
 //logout route 
 router.get("/logout", logoutUser);
 
-export {router as userRouter};  
+export {router as userRouter};

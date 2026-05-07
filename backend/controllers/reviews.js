@@ -11,20 +11,15 @@ export const createReview = async(req, res) => {
     await newReview.save();
     await listing.save();
 
-    console.log("new review added :", newReview);
     req.flash("success", "New review added!");
-    res.redirect(`/listings/${listing.id}`);
+    res.redirect(`/listings/${listing.slug || listing._id}`);
 };
 
 //delete review callback
 export const deleteReview = async(req, res) => {
-    // let listing = await Listing.findById(req.params.id);                          //these two line delete only review but not from reviews array 
-    // let deletedReviews = await Review.findByIdAndDelete(req.params.reviewId);    
-      let {id, reviewId} = req.params;  
-      await Listing.findByIdAndUpdate(id, {$pull: {reviews: reviewId}});             //this line delete review from reviews array
-      let deletedReviews = await Review.findByIdAndDelete(reviewId);
-  
-      console.log("deleted review :", deletedReviews);
-      req.flash("success", "Review deleted successfully!");
-      res.redirect(`/listings/${id}`); 
+    let {id, reviewId} = req.params;  
+    const listing = await Listing.findByIdAndUpdate(id, {$pull: {reviews: reviewId}});
+    await Review.findByIdAndDelete(reviewId);
+    req.flash("success", "Review deleted successfully!");
+    res.redirect(`/listings/${listing.slug || id}`); 
 };

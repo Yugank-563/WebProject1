@@ -17,7 +17,10 @@ import {
   updateLisiting,
   deleteListing,
   searchListings,
+  toggleWishlist
 } from "../controllers/listings.js";
+
+import { showWishlist } from "../controllers/users.js";
 
 const router = Router();
 
@@ -38,6 +41,13 @@ router.get("/search",searchListings);
 //new route
 router.get("/new", isLoggedIn, getNewListing);
 
+// wishlist view route
+router.get("/wishlist", isLoggedIn, wrapAsync(showWishlist));
+
+// wishlist toggle route (both GET and POST to support save-after-login)
+router.route("/:id/wishlist")
+  .get(isLoggedIn, wrapAsync(toggleWishlist))
+  .post(isLoggedIn, wrapAsync(toggleWishlist));
 
 router.route("/:id")
   .get(wrapAsync(getListing))

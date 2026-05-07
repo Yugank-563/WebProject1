@@ -1,5 +1,39 @@
 import Listing from '../models/listing.js';
+import User from '../models/user.js';
 import ExpressError from '../utils/expressError.js';
+
+// toggle wishlist
+export const toggleWishlist = async (req, res) => {
+    const { id } = req.params;
+    const user = await User.findById(req.user._id);
+
+    if (!user.wishlist) {
+        user.wishlist = [];
+    }
+
+    const index = user.wishlist.findIndex(wishId => wishId.toString() === id.toString());
+    if (index === -1) {
+        user.wishlist.push(id);
+        req.flash("success", "Added to wishlist!");
+    } else {
+        user.wishlist.splice(index, 1);
+        req.flash("success", "Removed from wishlist!");
+    }
+
+    await user.save();
+    
+    if (req.query.from === "wishlist") {
+        return res.redirect("/listings/wishlist");
+    }
+    
+    if (req.query.from === "index") {
+        return res.redirect("/listings");
+    }
+    
+    // Fetch listing to get slug for pretty redirect
+    const listing = await Listing.findById(id);
+    res.redirect(`/listings/${listing.slug || id}`);
+};
 
 
 
@@ -18,15 +52,28 @@ export const getNewListing = (req, res) => {
 
 //show listing callback
 export const getListing = async (req, res) => {
-    console.log(`Searching for listing ID: [${req.params.id}]`);
-    const listing = await Listing.findById(req.params.id.trim())
-    .populate({
+    const { id } = req.params;
+    
+    let listing;
+    // Try finding by ID if it looks like an ObjectId, otherwise find by slug
+    if (id.match(/^[0-9a-fA-F]{24}$/)) {
+        listing = await Listing.findById(id);
+    } 
+    
+    if (!listing) {
+        listing = await Listing.findOne({ slug: id });
+    }
+
+    if (!listing) throw new ExpressError(404, "Page Not Found");
+
+    // Populate after finding
+    await listing.populate({
       path : "reviews",
       populate : { 
         path : "author",
       },
-    })
-    .populate("owner");
+    });
+    await listing.populate("owner");
 
     if (!listing) throw new ExpressError(404, "Page Not Found");
     res.render("listings/show.ejs", { listing });
@@ -42,13 +89,21 @@ export const createListing = async (req, res) => {
     newlisting.image = { url, filename };
     await newlisting.save();
     req.flash("success", "New listing created!");
-    res.redirect(`/listings`);
+    res.redirect(`/listings/${newlisting.slug}`);
 };
 
 
 //edit listing callback
 export const getEditListing = async (req, res) => {
-    const listing = await Listing.findById(req.params.id);
+    const { id } = req.params;
+    let listing;
+    if (id.match(/^[0-9a-fA-F]{24}$/)) {
+        listing = await Listing.findById(id);
+    }
+    if (!listing) {
+        listing = await Listing.findOne({ slug: id });
+    }
+    
     if (!listing) throw new ExpressError(404, "Page Not Found");
     res.render("listings/edit.ejs", { listing });
 };
@@ -57,19 +112,24 @@ export const getEditListing = async (req, res) => {
 //update listing callback
 export const updateLisiting = async (req, res) => {
     let { id } = req.params;
-    let listing = await Listing.findByIdAndUpdate(req.params.id, req.body.listing, {
-      runValidators: true,
-      new: true,
-    });
+    let listing;
+    
+    if (id.match(/^[0-9a-fA-F]{24}$/)) {
+        listing = await Listing.findByIdAndUpdate(id, req.body.listing, { runValidators: true, new: true });
+    } else {
+        listing = await Listing.findOneAndUpdate({ slug: id }, req.body.listing, { runValidators: true, new: true });
+    }
+
+    if (!listing) throw new ExpressError(404, "Page Not Found");
+
     if(typeof req.file !== "undefined"){
         let url = req.file.path;
         let filename = req.file.filename;
         listing.image = { url, filename };
         await listing.save();
     }
-    console.log("updated listing :", listing);
     req.flash("success", "Listing updated!");
-    res.redirect(`/listings/${id}`);
+    res.redirect(`/listings/${listing.slug}`);
 };
 
 
@@ -77,7 +137,6 @@ export const updateLisiting = async (req, res) => {
 export const deleteListing = async (req, res) => {
     let deletedListing = await Listing.findByIdAndDelete(req.params.id);
     if (!deletedListing) throw new ExpressError(404, "Listing Not Found");
-    console.log("deleted listing :", deletedListing);
     req.flash("success", "Listing deleted!");
     res.redirect("/listings");
 };

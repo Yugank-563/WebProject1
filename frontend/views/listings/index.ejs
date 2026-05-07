@@ -260,11 +260,20 @@
 <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
     <% for(let listing of listings){ %>
         <div class="col">
-        <div class="card">  
-            <!-- we can add this class for image  ~~~show-page-img~~~ -->
-            <a href="/listings/<%= listing.id %>"><img src="<%= listing.image.url %>" class="card-img-top" alt="listing image">
-            <div class="card-img-overlay"></div>
+        <div class="card position-relative">  
+            <a href="/listings/<%= listing.slug || listing.id %>">
+                <img src="<%= listing.image.url %>" class="card-img-top" alt="listing image">
+                <div class="card-img-overlay"></div>
             </a>
+            
+            <!-- Wishlist Heart Button -->
+            <div class="position-absolute top-0 end-0 m-3" style="z-index: 10;">
+                <form action="/listings/<%= listing.id %>/wishlist?from=index" method="POST">
+                    <button class="btn btn-white btn-sm rounded-circle shadow-sm p-2" style="background: white; border: none;" title="<%= (currUser && currUser.wishlist && currUser.wishlist.some(id => id.toString() === listing.id.toString())) ? 'Remove from wishlist' : 'Save to wishlist' %>">
+                        <i class="fa-<%= (currUser && currUser.wishlist && currUser.wishlist.some(id => id.toString() === listing.id.toString())) ? 'solid' : 'regular' %> fa-heart fs-5 <%= (currUser && currUser.wishlist && currUser.wishlist.some(id => id.toString() === listing.id.toString())) ? 'text-danger' : '' %>"></i>
+                    </button>
+                </form>
+            </div>
 
             <div class="card-body">
             <p class="card-text">   

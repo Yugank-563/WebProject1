@@ -37,6 +37,20 @@ const listingSchema = new Schema({
         type : Schema.Types.ObjectId,
         ref : "User"
     },
+    slug: {
+        type: String,
+        unique: true
+    }
+});
+
+listingSchema.pre("save", function() {
+    if (!this.isModified("title") && this.slug) return;
+    this.slug = this.title
+        .toLowerCase()
+        .replace(/[^\w\s-]/g, "") // Remove non-word characters
+        .replace(/\s+/g, "-")      // Replace spaces with -
+        .replace(/-+/g, "-")       // Replace multiple - with single -
+        .trim();
 });
 
 listingSchema.post("findOneAndDelete", async(listing)=> {

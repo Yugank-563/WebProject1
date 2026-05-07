@@ -1,4 +1,4 @@
-# 🌍 WanderLust – Property Listing Web App
+# 🌍 WanderLust: Property Listing
 
 A full-stack web application built with the MERN stack that allows users to list, browse, review, and manage rental properties. Inspired by platforms like Airbnb, WanderLust includes features such as authentication, CRUD operations, image uploads, and cloud deployment.
 
@@ -8,10 +8,10 @@ A full-stack web application built with the MERN stack that allows users to list
 
 ## 🛠 Tech Stack
 
-- **Frontend**: Bootstrap, EJS
+- **Frontend**: Bootstrap, EJS, FontAwesome
 - **Backend**: Node.js, Express.js
 - **Database**: MongoDB (MongoDB Atlas)
-- **Authentication**: Passport.js
+- **Authentication**: Passport.js (Local Strategy)
 - **File Uploads**: Cloudinary
 - **Deployment**: Render
 
@@ -19,15 +19,53 @@ A full-stack web application built with the MERN stack that allows users to list
 
 ## 🚀 Features
 
-- 🏠 Add, edit, and delete property listings (CRUD)
-- 🔒 User registration, login, and authentication (Passport.js)
-- 📸 Upload listing images using Cloudinary
-- 💬 Add reviews to property listings
-- 🌐 Responsive and modern UI (Bootstrap)
-- ☁️ Hosted on Render with cloud database via MongoDB Atlas
-- 🔍 Client-side location search filter (JavaScript-based)
+- 🏠 **Full CRUD**: Add, edit, and delete property listings.
+- 🔒 **Secure Auth**: User registration, login, and session-based authentication.
+- 📸 **Cloud Image Handling**: Seamless image uploads via Cloudinary.
+- ❤️ **Personal Wishlist**: Save and manage your favorite listings with real-time feedback.
+- 💬 **Interactive Reviews**: Add, view, and delete reviews with timestamps and ratings.
+- 🔗 **SEO Friendly**: Human-readable slugs/URLs for listings instead of cryptic IDs.
+- 🌐 **Modern UI**: Clean, responsive design optimized for all screen sizes.
+- 🔍 **Search Filter**: Quickly find properties by title, location, or country.
+
+---
+
+## 💻 Local Installation
+
+To run this project locally, follow these steps:
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/ykushwaha0563/Wanderlust-Property-Listing.git
+cd Wanderlust-Property-Listing
+```
+
+### 2. Install Dependencies
+```bash
+npm install
+```
+> [!TIP]
+> If you encounter a dependency conflict error (common with `cloudinary`), use the following command instead:
+> ```bash
+> npm install --legacy-peer-deps
+> ```
+
+### 3. Setup Environment Variables
+Create a `.env` file in the root directory and use the `.env.example` file as a template for the required keys (MongoDB, Secret, and Cloudinary).
+
+### 4. Seed the Database (Optional)
+If you want to start with sample data:
+```bash
+node backend/init/index.js
+```
+
+### 5. Run the Application
+```bash
+npm start
+```
+The server will start on `http://localhost:3000`.
 
 ---
 
 ## 📸 Screenshots
-![image](https://github.com/user-attachments/assets/ad167bc9-753c-4757-a8eb-3f8f5e1c1418)
+![image](https://github.com/user-attachments/assets/6e893d69-d44a-4dda-88ea-3f0314697519)

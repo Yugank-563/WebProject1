@@ -2,7 +2,7 @@
   "engines": {
     "node": "v22.12.0"
   },
-  "name": "project1",
+  "name": "wanderlust",
   "version": "1.0.0",
   "main": "index.js",
   "type": "module",
@@ -14,7 +14,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
+  "description": "WanderLust: A premium property listing platform for modern travelers.",
   "dependencies": {
     "cloudinary": "^2.10.0",
     "connect-flash": "^0.1.1",

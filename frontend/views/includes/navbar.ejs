@@ -63,7 +63,7 @@
     /* Style the burger button itself */
     .navbar-toggler {
         border: 1px solid #ddd !important;
-        border-radius: 50% !important; /* Circle instead of pill */
+        border-radius: 50% !important;
         width: 45px;
         height: 45px;
         display: flex;
@@ -71,27 +71,30 @@
         justify-content: center;
         padding: 0 !important;
         box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+        color: #717171 !important;
+        font-size: 1.1rem;
     }
 </style>
 
 <nav class="navbar navbar-expand-lg bg-body-light border-bottom sticky-top">
   <div class="container-fluid px-4">
-    <a class="navbar-brand" href="/listings"><i class="fa-regular fa-compass"></i></a>
+    <a class="navbar-brand me-1" href="/listings"><i class="fa-regular fa-compass"></i></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
+      <i class="fa-solid fa-user text-secondary"></i>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
-        <a class="nav-link explore-link" href="/listings">Explore</a>
+        <a class="nav-link explore-link ms-0" href="/listings"><strong>Explore</strong></a>
       </div>
       
       <div class="navbar-nav ms-auto">
-        <a class="nav-link" href="/listings/new">Create Listing</a>
+        <a class="nav-link" href="/listings/new"><strong>Create Listing</strong></a>
         <% if(!currUser){ %>
           <a class="nav-link" href="/signup"><strong>Sign up</strong></a>
           <a class="nav-link" href="/login"><strong>Log in</strong></a>  
         <% } %>
         <% if(currUser){ %>
+          <a class="nav-link" href="/listings/wishlist"><strong>Wishlist</strong></a>
           <a class="nav-link" href="/logout"><strong>Log out</strong></a>
         <% } %>
       </div>

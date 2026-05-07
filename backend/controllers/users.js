@@ -15,7 +15,6 @@ export const createUser = async (req, res) => {
             if(err){
                 return next(err);
             }
-            console.log("user registered :" ,registeredUser);
             req.flash("success", "Welcome to Wanderlust!");
             req.session.save(() => {
                 res.redirect("/listings");
@@ -52,4 +51,10 @@ export const logoutUser = (req, res, next) => {
             res.redirect("/listings");
         });
     });
+};
+
+// show wishlist
+export const showWishlist = async (req, res) => {
+    const user = await User.findById(req.user._id).populate("wishlist");
+    res.render("user/wishlist.ejs", { wishlist: user.wishlist });
 };
